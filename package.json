@@ -1,0 +1,19 @@
+{
+  "name": "cordova-plugin-greedygame",
+  "version": "8.8.9",
+  "description": "Cordova Device Plugin",
+  "cordova": {
+    "id": "cordova-plugin-greedygame",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "greedygame",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "Apache 2.0"
+}
