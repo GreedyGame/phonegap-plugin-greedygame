@@ -39,6 +39,8 @@ public class GreedyGamePlugin extends CordovaPlugin implements CampaignStateList
     public static final String UNITS = "units";
     public static final String REFRESH = "refresh";
     public static final String SHOW_UII = "showUii";
+    public static final String GAME_ID = "gameId";
+    public static final String COPPA = "coppa";
 
     private GreedyGameAgent mGreedyGameAgent;
 
@@ -48,9 +50,11 @@ public class GreedyGamePlugin extends CordovaPlugin implements CampaignStateList
     private boolean mMopub;
     private boolean mFacebook;
     private boolean mSendCrash;
+    private boolean mCoppa;
     private boolean mNpa;
     private String mGameEngine;
     private String mEngineVersion;
+    private String mGameId;
     private List<String> mUnits = new CopyOnWriteArrayList<>();
 
     @Override
@@ -101,6 +105,12 @@ public class GreedyGamePlugin extends CordovaPlugin implements CampaignStateList
             case SHOW_UII:
                 showUii(args.getString(0));
                 return true;
+            case GAME_ID:
+                mGameId = args.getString(0);
+                return true;
+            case COPPA:
+                mCoppa = args.getBoolean(0);
+                return true;
         }
 
         return false;
@@ -120,6 +130,7 @@ public class GreedyGamePlugin extends CordovaPlugin implements CampaignStateList
     private void init() {
         Log.d(TAG, "Inside Init");
         mGreedyGameAgent = new GreedyGameAgent.Builder(cordova.getActivity())
+                .setGameId(mGameId)
                 .withAgentListener(this)
                 .enableAdmob(mAdmob)
                 .enableMopub(mMopub)
@@ -128,6 +139,7 @@ public class GreedyGamePlugin extends CordovaPlugin implements CampaignStateList
                 .gameEngine(mGameEngine)
                 .engineVersion(mEngineVersion)
                 .addUnitList(mUnits)
+                .enableCOPPAFilter(mCoppa)
                 .build();
         PrivacyOptions privacyOptions = new PrivacyOptions();
         privacyOptions.setGgNpa(mNpa);
@@ -144,13 +156,17 @@ public class GreedyGamePlugin extends CordovaPlugin implements CampaignStateList
     }
 
     @Override
-    public void onFound() {
-
-    }
-
-    @Override
     public void onUnavailable() {
-
+		Log.d(TAG, "Received in Plugin: UnAvailable");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(STATUS, FAILURE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+        pluginResult.setKeepCallback(true);
+        mCallbackContext.sendPluginResult(pluginResult);
     }
 
     @Override

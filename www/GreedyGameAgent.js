@@ -6,6 +6,14 @@ function isAndroid() {
 	return device.platform == "Android";
 }
 
+GreedyGameAgent.prototype.gameId = function(gameId) {
+	console.log('Game id: ', gameId);
+	if(isAndroid()) {
+		GreedyGamePlugin.gameId(gameId);
+	}
+	return this;
+};
+
 GreedyGameAgent.prototype.setAdmobEnabled = function(admobEnabled) {
 	console.log('Admob Enabled: ', admobEnabled);
 	if(isAndroid()) {
@@ -34,6 +42,14 @@ GreedyGameAgent.prototype.setNpa = function(npa) {
 	console.log('Npa: ', npa);
 	if(isAndroid()) {
 		GreedyGamePlugin.npa(npa);
+	}
+	return this;
+};
+
+GreedyGameAgent.prototype.coppa = function(coppa) {
+	console.log('Coppa: ', coppa);
+	if(isAndroid()) {
+		GreedyGamePlugin.coppa(coppa);
 	}
 	return this;
 };

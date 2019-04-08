@@ -21,15 +21,19 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-greedygame"
-    version="8.8.9">
+    version="8.8.13">
     <name>GreedyGame</name>
     <description>Cordova Device Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,greedygameplugin</keywords>
-    <repo></repo>
+    <repo>https://github.com/GreedyGame/phonegap-plugin-greedygame.git</repo>
     <issue></issue>
 
     <js-module src="www/plugin.js" name="greedygameplugin">
+        <clobbers target="GreedyGamePlugin" />
+    </js-module>
+
+    <js-module src="www/GreedyGameAgent.js" name="greedygameplugin">
         <clobbers target="GreedyGamePlugin" />
     </js-module>
 
@@ -42,9 +46,44 @@
             <param name="onload" value="true" />
         </config-file>
 
-        <framework src="com.greedygame:greedygame:8.8.9"/>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+          <activity
+            android:name="com.greedygame.android.core.campaign.uii.web.GGWebActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|layoutDirection"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.GGTransparent">
+          </activity>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+          <activity
+            android:name="com.greedygame.android.core.mediation.greedygame.GGS2SActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|layoutDirection"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.GGTransparent">
+          </activity>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+          <activity
+            android:name="com.greedygame.android.core.mediation.admob.GGAdMobActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|layoutDirection"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.GGTransparent">
+          </activity>
+        </config-file>
+
+        <framework src="com.greedygame:greedygame:8.8.13"/>
+        <framework src="com.google.android.gms:play-services-ads:16.0.0"/>
 
         <source-file src="src/com/greedygame/android/plugin/GreedyGamePlugin.java" target-dir="src/com/greedygame/android/plugin/" />
+        <!-- <source-file src="www/GreedyGameAgent.js" target-dir="assets/www/js/" /> -->
     </platform>
 
 </plugin>
